@@ -198,11 +198,39 @@ jobs:
         with:
           namespace: ${{ env.NAMESPACE }}
 
-      - name: Configure MongoDB
-        uses: openedx-actions/tutor-k8s-configure-mongodb@v1.0.1
-        with:
-          namespace: ${{ env.NAMESPACE }}
-          remote-server: "false"
+      - name: Fetch secret meta data from k8s and echo to the console
+        id: fetch-metadata
+        shell: bash
+        run: |-
+          echo "k8s secret:"
+          echo "=================================================="
+          kubectl get secret mongodb-admin -n minischool-global-live  -o json | jq  .metadata | jq -r 'keys[] as $k | "\($k)=\(.[$k])"'
+          echo "=================================================="
+          
+      - name: fetch MongoDB openedx configuration from Kubernetes secrets
+        id: get-openedx-secret
+        shell: bash
+        run: |-
+          echo "k8s secret:"
+          echo "=================================================="
+          kubectl get secret mongodb-openedx -n minischool-global-live  -o json | jq  .metadata | jq -r 'keys[] as $k | "\($k)=\(.[$k])"'
+          echo "=================================================="
+          
+      - name: set for default, mongodb pod in k8s
+        id: set-default-environment-variables
+        shell: bash
+        run: echo "TUTOR_RUN_MONGODB=true" >> $GITHUB_ENV
+
+      - name: configure tutor
+        id: save-config
+        shell: bash
+        run: tutor config save
+      
+#      - name: Configure MongoDB
+#        uses: openedx-actions/tutor-k8s-configure-mongodb@v1.0.1
+#        with:
+#          namespace: ${{ env.NAMESPACE }}
+#          remote-server: "false"
           
 
       # ---------------------------------------------------------------------------------
