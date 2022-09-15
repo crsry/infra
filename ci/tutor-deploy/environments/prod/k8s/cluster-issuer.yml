@@ -25,5 +25,5 @@ spec:
           # for the environment domain.
           route53:
             region: ap-southeast-1
-            hostedZoneID: Z0721382J6XGHL2EVWAX
-            #Z06806691Q1QSVVT1UNGQ
+            hostedZoneID: Z06806691Q1QSVVT1UNGQ
+            #Z0721382J6XGHL2EVWAX
