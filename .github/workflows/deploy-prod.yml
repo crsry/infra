@@ -32,7 +32,7 @@ jobs:
       ENABLE_BACKUP: false
       ENABLE_CREDENTIALS: false
       
-      ENABLE_DISCOVERY: true
+      ENABLE_DISCOVERY: false
       
       ENABLE_ECOMMERCE: true
       
